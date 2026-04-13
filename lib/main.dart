@@ -42,9 +42,15 @@ class MyCurriculumPage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.fromLTRB(50.0, 30.0, 50.0, 16.0),
           children: [
-            CircleAvatar(
-              radius: 200,
-              backgroundImage: AssetImage('images/pedro.jpeg'),
+            SizedBox(
+              height: 400,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: CircleAvatar(
+                  radius: 200,
+                  backgroundImage: AssetImage('images/pedro.jpeg'),
+                ),
+              ),
             ),
 
             Text(
@@ -156,29 +162,27 @@ class _EscolaridadeState extends State<Escolaridade> {
           padding: EdgeInsets.fromLTRB(50.0, 30, 50.0, 16),
           itemCount: escolaridade.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                escolaridade[index],
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            return Dismissible(
+              key: Key(escolaridade[index]),
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(Icons.delete, color: Colors.white),
               ),
-              subtitle: Text(
-                descricao_escolaridade[index],
+              onDismissed: (direction) => setState(() {
+                _EscolaridadeState.escolaridade.removeAt(index);
+                _EscolaridadeState.descricao_escolaridade.removeAt(index);
+              }),
+              child: ListTile(
+                title: Text(
+                  escolaridade[index],
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                ),
+                subtitle: Text(
+                  descricao_escolaridade[index],
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
               ),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _EscolaridadeState.escolaridade.removeAt(index);
-                    _EscolaridadeState.descricao_escolaridade.removeAt(index);
-                  });
-                },
-                child: Icon(Icons.delete, color: Colors.redAccent),
-
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  fixedSize: Size(40, 60),
-                ),
               ),
             );
           },
@@ -232,28 +236,16 @@ class _ProjetosState extends State<Projetos> {
           padding: EdgeInsets.fromLTRB(30.0, 30, 30.0, 16),
           itemCount: projetos.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                projetos[index],
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
-              subtitle: Text(
-                descricao_projetos[index],
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-              ),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _ProjetosState.projetos.removeAt(index);
-                    _ProjetosState.descricao_projetos.removeAt(index);
-                  });
-                },
-                child: Icon(Icons.delete, color: Colors.redAccent),
-
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  fixedSize: Size(40, 60),
+            return Dismissible(
+              key: Key(projetos[index]),
+              child: ListTile(
+                title: Text(
+                  projetos[index],
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                ),
+                subtitle: Text(
+                  descricao_projetos[index],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                 ),
               ),
             );
@@ -299,29 +291,17 @@ class _RecomendacoesState extends State<Recomendacoes> {
           padding: EdgeInsets.fromLTRB(50.0, 30, 50.0, 16),
           itemCount: recomendacoes.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                recomendacoes[index],
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
+            return Dismissible(
+              key: Key(recomendacoes[index]),
+              child: ListTile(
+                title: Text(
+                  recomendacoes[index],
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                ),
 
-              subtitle: Text(
-                descricao_recomendacao[index],
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-              ),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _RecomendacoesState.recomendacoes.removeAt(index);
-                    _RecomendacoesState.descricao_recomendacao.removeAt(index);
-                  });
-                },
-                child: Icon(Icons.delete, color: Colors.redAccent),
-
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  fixedSize: Size(40, 60),
+                subtitle: Text(
+                  descricao_recomendacao[index],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                 ),
               ),
             );
@@ -341,21 +321,28 @@ class CadastrarInfos extends StatefulWidget {
 
 class _CadastrarInfosState extends State<CadastrarInfos> {
   Color bgcolor1 = Colors.green[800]!;
-  Color txtcolor1 = Colors.white;         // =====================================================
-  Color bgcolor2 = Colors.white;          // Variáveis para controlar as cores dos botões e textos
-  Color txtcolor2 = Colors.green[800]!;   // =====================================================
+  Color txtcolor1 =
+      Colors.white; // =====================================================
+  Color bgcolor2 =
+      Colors.white; // Variáveis para controlar as cores dos botões e textos
+  Color txtcolor2 = Colors
+      .green[800]!; // =====================================================
   Color bgcolor3 = Colors.white;
   Color txtcolor3 = Colors.green[800]!;
 
-  String selectedInfo = 'Escolaridade'; // Variável para armazenar a informação selecionada DEFAULT -> Escolaridade
+  String selectedInfo =
+      'Escolaridade'; // Variável para armazenar a informação selecionada DEFAULT -> Escolaridade
 
-  final TextEditingController titleController = TextEditingController(); // Controlador para o campo de título
-  final TextEditingController descriptionController = TextEditingController(); // Controlador para o campo de descrição
+  final TextEditingController titleController =
+      TextEditingController(); // Controlador para o campo de título
+  final TextEditingController descriptionController =
+      TextEditingController(); // Controlador para o campo de descrição
 
   @override
   void dispose() {
     titleController.dispose(); // Liberar recursos do controlador de título
-    descriptionController.dispose(); // Liberar recursos do controlador de descrição
+    descriptionController
+        .dispose(); // Liberar recursos do controlador de descrição
     super.dispose();
   }
 
@@ -374,155 +361,165 @@ class _CadastrarInfosState extends State<CadastrarInfos> {
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(40.0, 30, 40.0, 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        bgcolor1 = Colors.green[800]!;
-                        txtcolor1 = Colors.white;
-                        bgcolor2 = Colors.white;
-                        txtcolor2 = Colors.green[800]!;
-                        bgcolor3 = Colors.white;
-                        txtcolor3 = Colors.green[800]!;
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(50.0, 30, 50.0, 16),
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                bgcolor1 = Colors.green[800]!;
+                txtcolor1 = Colors.white;
+                bgcolor2 = Colors.white;
+                txtcolor2 = Colors.green[800]!;
+                bgcolor3 = Colors.white;
+                txtcolor3 = Colors.green[800]!;
 
-                        selectedInfo = 'Escolaridade';
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: bgcolor1,
-                      fixedSize: Size(180, 20),
-                    ),
-                    child: Text(
-                      'Escolaridade',
-                      style: TextStyle(color: txtcolor1, fontSize: 16),
-                    ),
-                  ),
-
-                  SizedBox(width: 10),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        bgcolor2 = Colors.green[800]!;
-                        txtcolor2 = Colors.white;
-                        bgcolor1 = Colors.white;
-                        txtcolor1 = Colors.green[800]!;
-                        bgcolor3 = Colors.white;
-                        txtcolor3 = Colors.green[800]!;
-
-                        selectedInfo = 'Projetos';
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: bgcolor2,
-                      fixedSize: Size(180, 20),
-                    ),
-                    child: Text(
-                      'Projetos',
-                      style: TextStyle(color: txtcolor2, fontSize: 16),
-                    ),
-                  ),
-
-                  SizedBox(width: 10),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        bgcolor3 = Colors.green[800]!;
-                        txtcolor3 = Colors.white;
-                        bgcolor1 = Colors.white;
-                        txtcolor1 = Colors.green[800]!;
-                        bgcolor2 = Colors.white;
-                        txtcolor2 = Colors.green[800]!;
-
-                        selectedInfo = 'Recomendações';
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: bgcolor3,
-                      fixedSize: Size(180, 20),
-                    ),
-                    child: Text(
-                      'Recomendações',
-                      style: TextStyle(color: txtcolor3, fontSize: 16),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 32),
-
-              Text('Cadastrar informações sobre ${selectedInfo}', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500), textAlign: TextAlign.center,),
-
-              SizedBox(height: 32),
-
-              Column(
-                children: [
-                  Text('Título:', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                      hintText: 'Digite o título da informação',
-                    ),
-                  ),
-
-                  SizedBox(height: 16.0),
-
-                  Text('Descrição:', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
-                  TextField(
-                    maxLines: 5,
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                      hintText: 'Digite a descrição da informação',
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 32),
-
-              ElevatedButton(
-                onPressed: () {
-                  if (selectedInfo == 'Escolaridade') {
-                    _EscolaridadeState.escolaridade.add(titleController.text);
-                    _EscolaridadeState.descricao_escolaridade.add(descriptionController.text);
-                    titleController.clear();
-                    descriptionController.clear();
-                  }
-
-                  else if (selectedInfo == 'Projetos') {
-                    _ProjetosState.projetos.add(titleController.text);
-                    _ProjetosState.descricao_projetos.add(descriptionController.text);
-                    titleController.clear();
-                    descriptionController.clear();
-                  }
-
-                  else if (selectedInfo == 'Recomendações') {
-                    _RecomendacoesState.recomendacoes.add(titleController.text);
-                    _RecomendacoesState.descricao_recomendacao.add(descriptionController.text);
-                    titleController.clear();
-                    descriptionController.clear();
-                  }
-                },
-
-                child: Text('Salvar', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green[800],
-                  fixedSize: Size(150, 40),
-                ),
-              )
-            ]
+                selectedInfo = 'Escolaridade';
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: bgcolor1,
+              fixedSize: Size(180, 20),
+            ),
+            child: Text(
+              'Escolaridade',
+              style: TextStyle(color: txtcolor1, fontSize: 16),
+            ),
           ),
-        ),
+
+          SizedBox(width: 10),
+
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                bgcolor2 = Colors.green[800]!;
+                txtcolor2 = Colors.white;
+                bgcolor1 = Colors.white;
+                txtcolor1 = Colors.green[800]!;
+                bgcolor3 = Colors.white;
+                txtcolor3 = Colors.green[800]!;
+
+                selectedInfo = 'Projetos';
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: bgcolor2,
+              fixedSize: Size(180, 20),
+            ),
+            child: Text(
+              'Projetos',
+              style: TextStyle(color: txtcolor2, fontSize: 16),
+            ),
+          ),
+
+          SizedBox(width: 10),
+
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                bgcolor3 = Colors.green[800]!;
+                txtcolor3 = Colors.white;
+                bgcolor1 = Colors.white;
+                txtcolor1 = Colors.green[800]!;
+                bgcolor2 = Colors.white;
+                txtcolor2 = Colors.green[800]!;
+
+                selectedInfo = 'Recomendações';
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: bgcolor3,
+              fixedSize: Size(180, 20),
+            ),
+            child: Text(
+              'Recomendações',
+              style: TextStyle(color: txtcolor3, fontSize: 16),
+            ),
+          ),
+
+          SizedBox(height: 32),
+
+          Text(
+            'Cadastrar informações sobre ${selectedInfo}',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
+          ),
+
+          SizedBox(height: 32),
+
+          Text(
+            'Título:',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+          ),
+          TextField(
+            controller: titleController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              hintText: 'Digite o título da informação',
+            ),
+          ),
+
+          SizedBox(height: 16.0),
+
+          Text(
+            'Descrição:',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+          ),
+          TextField(
+            maxLines: 5,
+            controller: descriptionController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              hintText: 'Digite a descrição da informação',
+            ),
+          ),
+
+          SizedBox(height: 32),
+
+          ElevatedButton(
+            onPressed: () {
+              if (selectedInfo == 'Escolaridade') {
+                _EscolaridadeState.escolaridade.add(titleController.text);
+                _EscolaridadeState.descricao_escolaridade.add(
+                  descriptionController.text,
+                );
+                titleController.clear();
+                descriptionController.clear();
+              } else if (selectedInfo == 'Projetos') {
+                _ProjetosState.projetos.add(titleController.text);
+                _ProjetosState.descricao_projetos.add(
+                  descriptionController.text,
+                );
+                titleController.clear();
+                descriptionController.clear();
+              } else if (selectedInfo == 'Recomendações') {
+                _RecomendacoesState.recomendacoes.add(titleController.text);
+                _RecomendacoesState.descricao_recomendacao.add(
+                  descriptionController.text,
+                );
+                titleController.clear();
+                descriptionController.clear();
+              }
+            },
+
+            child: Text(
+              'Salvar',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green[800],
+              fixedSize: Size(150, 40),
+            ),
+          ),
+        ],
       ),
     );
   }
