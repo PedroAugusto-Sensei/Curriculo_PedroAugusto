@@ -165,6 +165,21 @@ class _EscolaridadeState extends State<Escolaridade> {
                 descricao_escolaridade[index],
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
               ),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _EscolaridadeState.escolaridade.removeAt(index);
+                    _EscolaridadeState.descricao_escolaridade.removeAt(index);
+                  });
+                },
+                child: Icon(Icons.delete, color: Colors.redAccent),
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  fixedSize: Size(40, 60),
+                ),
+              ),
             );
           },
         ),
@@ -214,7 +229,7 @@ class _ProjetosState extends State<Projetos> {
       ),
       body: Center(
         child: ListView.builder(
-          padding: EdgeInsets.fromLTRB(50.0, 30, 50.0, 16),
+          padding: EdgeInsets.fromLTRB(30.0, 30, 30.0, 16),
           itemCount: projetos.length,
           itemBuilder: (context, index) {
             return ListTile(
@@ -225,6 +240,21 @@ class _ProjetosState extends State<Projetos> {
               subtitle: Text(
                 descricao_projetos[index],
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              ),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _ProjetosState.projetos.removeAt(index);
+                    _ProjetosState.descricao_projetos.removeAt(index);
+                  });
+                },
+                child: Icon(Icons.delete, color: Colors.redAccent),
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  fixedSize: Size(40, 60),
+                ),
               ),
             );
           },
@@ -279,6 +309,21 @@ class _RecomendacoesState extends State<Recomendacoes> {
                 descricao_recomendacao[index],
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
               ),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _RecomendacoesState.recomendacoes.removeAt(index);
+                    _RecomendacoesState.descricao_recomendacao.removeAt(index);
+                  });
+                },
+                child: Icon(Icons.delete, color: Colors.redAccent),
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  fixedSize: Size(40, 60),
+                ),
+              ),
             );
           },
         ),
@@ -313,8 +358,6 @@ class _CadastrarInfosState extends State<CadastrarInfos> {
     descriptionController.dispose(); // Liberar recursos do controlador de descrição
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
